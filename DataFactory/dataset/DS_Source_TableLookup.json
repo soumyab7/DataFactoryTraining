@@ -1,0 +1,34 @@
+{
+	"name": "DS_Source_TableLookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_target_ds",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "Watermarkcolumn",
+				"type": "varchar"
+			},
+			{
+				"name": "Tabletype",
+				"type": "varchar"
+			},
+			{
+				"name": "SPNameformergeoperation",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TableNames"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

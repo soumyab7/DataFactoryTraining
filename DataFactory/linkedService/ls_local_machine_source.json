@@ -1,0 +1,16 @@
+{
+	"name": "ls_local_machine_source",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=DESKTOP-OVR8EH0\\SQLEXPRESS;initial catalog=PowerBI;user id=sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyYzAxZjY0Yy1hNzVkLTQ3Y2ItYThiNC01MWI1MDlhNGI4MjYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRlocalRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

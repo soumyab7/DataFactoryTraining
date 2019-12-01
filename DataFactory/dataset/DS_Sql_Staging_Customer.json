@@ -1,0 +1,35 @@
+{
+	"name": "DS_Sql_Staging_Customer",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_source_ds",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CustomerId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CustomerName",
+				"type": "varchar"
+			},
+			{
+				"name": "PhoneNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "Address",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Staging",
+			"table": "Customer"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

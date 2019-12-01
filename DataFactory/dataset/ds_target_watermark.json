@@ -1,0 +1,31 @@
+{
+	"name": "ds_target_watermark",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_target_ds",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Demo1-src-target"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "WaterMarkValue",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "WaterMark"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

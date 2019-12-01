@@ -1,0 +1,39 @@
+{
+	"name": "ds_IR_Target_OrdersIRTarget",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_source_ds",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OrderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "OrderQuantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderPrice",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OrdersIRTarget"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,22 @@
+{
+	"name": "ds_blob_order_kv_without_parameter",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_orders",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "order"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

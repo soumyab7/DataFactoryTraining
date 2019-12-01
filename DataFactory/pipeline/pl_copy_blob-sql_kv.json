@@ -1,0 +1,109 @@
+{
+	"name": "pl_copy_blob-sql_kv",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 1
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 1
+								},
+								"sink": {
+									"name": "OrderId",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"type": "DateTime",
+									"ordinal": 2
+								},
+								"sink": {
+									"name": "OrderDate",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 3
+								},
+								"sink": {
+									"name": "OrderQuantity",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 4
+								},
+								"sink": {
+									"name": "OrderUnitPrice",
+									"type": "Int32"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_bloborder_kv",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@pipeline().parameters.plfilename",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_target_order_kv",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"plfilename": {
+				"type": "string",
+				"defaultValue": "Sample.txt"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

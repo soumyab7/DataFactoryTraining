@@ -1,0 +1,13 @@
+{
+	"name": "DS_Sql_Customer_SP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_target_ds",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

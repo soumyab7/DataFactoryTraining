@@ -1,0 +1,21 @@
+{
+	"name": "ls_target_ds_kv",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=azuredatafactory2019.database.windows.net;Initial Catalog=TargerDB",
+			"servicePrincipalId": "dfe78e21-f4ea-40c7-9a0f-e301e6f15b6d",
+			"servicePrincipalKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_kv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "serviceprinciplekey"
+			},
+			"tenant": "6e420f16-a7df-4cc6-8679-eb6caad1a422"
+		}
+	}
+}

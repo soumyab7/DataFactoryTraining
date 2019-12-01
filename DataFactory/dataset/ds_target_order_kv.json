@@ -1,0 +1,48 @@
+{
+	"name": "ds_target_order_kv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_target_ds_kv",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "OrderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ProductId",
+				"type": "varchar"
+			},
+			{
+				"name": "CustomerId",
+				"type": "varchar"
+			},
+			{
+				"name": "UnitPrice",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 4
+			},
+			{
+				"name": "Quantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "InsertDatetime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OrdersKV"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

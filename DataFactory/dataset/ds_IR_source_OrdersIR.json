@@ -1,0 +1,39 @@
+{
+	"name": "ds_IR_source_OrdersIR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_local_machine_source",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "OrderId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "OrderQuantity",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "OrderPrice",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "OrdersIR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

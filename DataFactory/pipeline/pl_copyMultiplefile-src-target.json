@@ -1,0 +1,172 @@
+{
+	"name": "pl_copyMultiplefile-src-target",
+	"properties": {
+		"activities": [
+			{
+				"name": "lkp_oldWatermark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select TableName,WaterMarkValue\nfrom watermark\nwhere TableName = '@{pipeline().parameters.Tablename}'",
+							"type": "Expression"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_target_watermark",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "lkp_NewWaterMark",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "\nSELECT ISNULL(MAX(@{pipeline().parameters.Watermarkcolumn}),'1900-01-01') AS NewWaterMarkValue FROM @{pipeline().parameters.TableName}",
+							"type": "Expression"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_source_orders",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "cp_IncrementalLoad",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "lkp_oldWatermark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "lkp_NewWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "select * from @{activity('lkp_oldWatermark').output.firstrow.TableName}\nwhere @{pipeline().parameters.Watermarkcolumn} >\n'@{activity('lkp_oldWatermark').output.firstrow.WaterMarkValue}'\nand @{pipeline().parameters.Watermarkcolumn} <=\n'@{activity('lkp_NewWaterMark').output.firstrow.NewWaterMarkValue}'",
+							"type": "Expression"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_source_orders",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Ds_Sql_Target_tableparameter",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Stored Procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "cp_IncrementalLoad",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[spSetWaterMark]",
+					"storedProcedureParameters": {
+						"NewTime": {
+							"value": {
+								"value": "@activity('lkp_NewWaterMark').output.firstRow.NewWaterMarkValue",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"TableName": {
+							"value": {
+								"value": "@activity('lkp_oldWatermark').output.firstRow.TableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_demo1_target_ds",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"TableName": {
+				"type": "string"
+			},
+			"Watermarkcolumn": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "CopyMultipleFilebyLoop"
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

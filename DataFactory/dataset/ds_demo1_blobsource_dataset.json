@@ -1,0 +1,44 @@
+{
+	"name": "ds_demo1_blobsource_dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_orders",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"DatasetFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().DatasetFileName",
+					"type": "Expression"
+				},
+				"container": "order"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			},
+			{
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

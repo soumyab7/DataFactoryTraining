@@ -1,0 +1,6 @@
+{
+	"name": "IRlocalRuntime",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

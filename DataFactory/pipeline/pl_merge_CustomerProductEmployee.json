@@ -1,0 +1,179 @@
+{
+	"name": "pl_merge_CustomerProductEmployee",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_customerdetail",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[sp_MergeCustomerDetailData]",
+						"sqlWriterTableType": "customerdetailType",
+						"storedProcedureTableTypeParameterName": "CustomerdetailData",
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_staging_CustomerDetail_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Sql_Customer_SP",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_employeeDetail",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy_customerdetail",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[sp_MergeEmployeeDetailData]",
+						"sqlWriterTableType": "EmployeeType",
+						"storedProcedureTableTypeParameterName": "EmployeedetailData"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_staging_employee_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Sql_Customer_SP",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy ProductDetailsData",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy_employeeDetail",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[sp_MergeProductDetailData]",
+						"sqlWriterTableType": "ProductType",
+						"storedProcedureTableTypeParameterName": "ProductdetailData"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "Dataset_staging_Product_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Sql_Customer_SP",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_purchaseorder",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy ProductDetailsData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"sqlWriterStoredProcedureName": "[dbo].[sp_PurchaseOrderDetailData]",
+						"sqlWriterTableType": "PurchaseOrder",
+						"storedProcedureTableTypeParameterName": "PurchaseOrderdetailData"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_staging_PurchaseOrder_source",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_Sql_Customer_SP",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

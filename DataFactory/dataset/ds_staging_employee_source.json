@@ -1,0 +1,35 @@
+{
+	"name": "ds_staging_employee_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_demo1_source_ds",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Customercode",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "customername",
+				"type": "varchar"
+			},
+			{
+				"name": "Address",
+				"type": "varchar"
+			},
+			{
+				"name": "Phonenumber",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "Staging",
+			"table": "Employee"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
