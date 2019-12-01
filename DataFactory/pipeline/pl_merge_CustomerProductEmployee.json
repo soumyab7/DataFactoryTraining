@@ -173,6 +173,9 @@
 				]
 			}
 		],
+		"folder": {
+			"name": "pl_OLTP_System"
+		},
 		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
