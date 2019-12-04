@@ -148,6 +148,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "pl_LoopActivity"
+		},
 		"annotations": []
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
